@@ -1,0 +1,40 @@
+# Build Artifacts
+build/
+*/build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+
+# Dependencies
+
+# Matplot++ cloned or built locally
+matplotplusplus/
+opt/
+lib/
+bin/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor Settings
+.vscode/
+.idea/
+.cursor/
+*.swp
+*.swo
+
+# Logs and Temp
+*.log
+*.out
+*.tmp
+*.bak
+
+# Docker / Containers
+.dockerignore
+*.tar
+*.pid
+
+*.cache
+.DS_Store
