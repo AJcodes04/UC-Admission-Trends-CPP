@@ -1,6 +1,5 @@
 FROM ubuntu:22.04
 
-# Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
@@ -10,8 +9,6 @@ RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Matplot++ in a separate layer for better caching
-# This layer will only rebuild if Matplot++ installation changes
 RUN git clone --depth=1 --single-branch --branch master \
     https://github.com/alandefreitas/matplotplusplus.git /tmp/matplotplusplus && \
     cd /tmp/matplotplusplus && \
@@ -26,18 +23,14 @@ RUN git clone --depth=1 --single-branch --branch master \
     ldconfig && \
     rm -rf /tmp/matplotplusplus
 
-# Set environment variables
 ENV LD_LIBRARY_PATH=/usr/local/lib
 ENV CMAKE_PREFIX_PATH=/usr/local
 ENV PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
 
-# Set working directory
 WORKDIR /app
 
-# Copy project files (this happens after Matplot++ is installed and cached)
 COPY . .
 
-# Build the project
 RUN rm -rf build && \
     mkdir build && \
     cd build && \

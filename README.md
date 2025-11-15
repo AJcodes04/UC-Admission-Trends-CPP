@@ -4,13 +4,17 @@ A C++ application for analyzing and visualizing UC (University of California) ad
 
 ## Requirements
 
-- C++17 compatible compiler (GCC or Clang)
-- CMake 3.10 or higher
-- Matplot++ (automatically installed via Docker or manually)
+- Docker
 
-### Docker 
+## Setup
 
-Build the Docker image:
+Clone the repository:
+```bash
+git clone https://github.com/AJcodes04/UC-Admission-Trends-CPP.git
+cd UC-Admission-Trends-CPP
+```
+
+Build the Docker image (Docker automatically handles all dependencies including Matplot++):
 ```bash
 docker build -t uctrends .
 ```
@@ -20,27 +24,15 @@ Run the container:
 docker run uctrends
 ```
 
-2. Install Matplot++:
-```bash
-git clone --depth=1 https://github.com/alandefreitas/matplotplusplus.git /tmp/matplotplusplus
-cd /tmp/matplotplusplus
-mkdir build && cd build
-cmake .. -DBUILD_EXAMPLES=OFF -DBUILD_TESTS=OFF -DCMAKE_INSTALL_PREFIX=/usr/local
-make -j$(nproc)
-sudo make install
-sudo ldconfig
-```
+## Project Structure
 
-3. Build the project:
-```bash
-mkdir build && cd build
-cmake ..
-make -j$(nproc)
 ```
-
-4. Run:
-```bash
-./build/UC_Addmission_Trends
+.
+├── src/              # Source files
+├── include/          # Header files
+├── data/             # CSV data files (UC campuses 2012-2023)
+├── CMakeLists.txt    # CMake build configuration
+└── Dockerfile        # Docker build configuration
 ```
 
 ## Data
