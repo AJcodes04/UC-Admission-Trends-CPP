@@ -21,10 +21,11 @@ additional helper methods
 
 using namespace std;
 
-class CSVReader {
+class CSVReader
+{
 public:
-
-    struct Record {
+    struct Record
+    {
         string discipline;
         string school;
         string major;
@@ -32,29 +33,28 @@ public:
         int applicants;
         int admits;
         int enrolls;
+        int admitRate;
+        int yieldRate;
 
         double admitGPA25, admitGPA75;
         double enrollGPA25, enrollGPA75;
-
-        double admitRate;
-        double yieldRate;
     };
 
 private:
     string filepath;
 
-    static string trim(const string& s);
-    static string removeQuotes(const string& s);
-    static string removeCommas(const string& s); //For gpa
+    static string trim(const string &s);
+    static string removeQuotes(const string &s);
+    static string removeCommas(const string &s); // For gpa
 
-    static int parseInt(const string& s);
-    static double parsePercent(const string& s);
-    static pair<double,double> parseRange(const string& s);
+    static int parseInt(const string &s);
+    static double parsePercent(const string &s);
+    static pair<double, double> parseRange(const string &s);
 
-    static vector<string> splitLine(const string& line);
+    static vector<string> splitLine(const string &line);
 
 public:
-    explicit CSVReader(const string& fp);
+    explicit CSVReader(const string &fp);
 
     vector<vector<string>> readRawCSV() const;
 
@@ -62,18 +62,17 @@ public:
 
     vector<string> getMajors() const;
 
-    Record getRecordForMajor(const string& majorName) const;
+    Record getRecordForMajor(const string &majorName) const;
 
-    pair<double,double> getAdmitGPA(const string& majorName) const;
-    pair<double,double> getEnrollGPA(const string& majorName) const;
+    pair<double, double> getAdmitGPA(const string &majorName) const;
+    pair<double, double> getEnrollGPA(const string &majorName) const;
 
-    double getAdmitRate(const string& majorName) const;
-    double getYieldRate(const string& majorName) const;
+    double getAdmitRate(const string &majorName) const;
+    double getYieldRate(const string &majorName) const;
 
-    int getApplicants(const string& majorName) const;
-    int getAdmits(const string& majorName) const;
-    int getEnrolls(const string& majorName) const;
+    int getApplicants(const string &majorName) const;
+    int getAdmits(const string &majorName) const;
+    int getEnrolls(const string &majorName) const;
 };
 
 #endif
-
