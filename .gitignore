@@ -38,3 +38,10 @@ Thumbs.db
 
 *.cache
 .DS_Store
+
+
+university
+*.out
+*.exe
+*.o
+*.class
