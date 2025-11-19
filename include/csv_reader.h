@@ -18,17 +18,17 @@ additional helper methods
 #include <string>
 #include <vector>
 #include <utility>
-
-using namespace std;
+#include <fstream>
+#include <sstream>
 
 class CSVReader
 {
 public:
     struct Record
     {
-        string discipline;
-        string school;
-        string major;
+        std::string discipline;
+        std::string school;
+        std::string major;
 
         int applicants;
         int admits;
@@ -41,38 +41,38 @@ public:
     };
 
 private:
-    string filepath;
+    std::string filepath;
 
-    static string trim(const string &s);
-    static string removeQuotes(const string &s);
-    static string removeCommas(const string &s); // For gpa
+    static std::string trim(const std::string &s);
+    static std::string removeQuotes(const std::string &s);
+    static std::string removeCommas(const std::string &s);
 
-    static int parseInt(const string &s);
-    static double parsePercent(const string &s);
-    static pair<double, double> parseRange(const string &s);
+    static int parseInt(const std::string &s);
+    static int parsePercent(const std::string &s);
+    static std::pair<double, double> parseRange(const std::string &s);
 
-    static vector<string> splitLine(const string &line);
+    static std::vector<std::string> splitLine(const std::string &line);
 
 public:
-    explicit CSVReader(const string &fp);
+    explicit CSVReader(const std::string &fp);
 
-    vector<vector<string>> readRawCSV() const;
+    std::vector<std::vector<std::string>> readRawCSV() const;
 
-    vector<Record> parseRecords() const;
+    std::vector<Record> parseRecords() const;
 
-    vector<string> getMajors() const;
+    const std::vector<std::string> &getMajors() const;
 
-    Record getRecordForMajor(const string &majorName) const;
+    Record getRecordForMajor(const std::string &majorName) const;
 
-    pair<double, double> getAdmitGPA(const string &majorName) const;
-    pair<double, double> getEnrollGPA(const string &majorName) const;
+    std::pair<double, double> getAdmitGPA(const std::string &majorName) const;
+    std::pair<double, double> getEnrollGPA(const std::string &majorName) const;
 
-    double getAdmitRate(const string &majorName) const;
-    double getYieldRate(const string &majorName) const;
+    int getAdmitRate(const std::string &majorName) const;
+    int getYieldRate(const std::string &majorName) const;
 
-    int getApplicants(const string &majorName) const;
-    int getAdmits(const string &majorName) const;
-    int getEnrolls(const string &majorName) const;
+    int getApplicants(const std::string &majorName) const;
+    int getAdmits(const std::string &majorName) const;
+    int getEnrolls(const std::string &majorName) const;
 };
 
 #endif
