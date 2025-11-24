@@ -1,103 +1,75 @@
-#ifndef CSV_READER_H
-#define CSV_READER_H
+#include "csv_reader.h"
+#include "database.h"
+#include "major.h"
+#include "university.h"
 
-#include <string>
-#include <vector>
-#include <utility>
 #include <fstream>
 #include <sstream>
+#include <iostream>
+#include <vector>
+#include <string>
 
-class CSVReader{
-public:
-    struct Record
-    {
-        std::string discipline;
-        std::string school;
-        std::string major;
+CSVReader::CSVReader(const std::string& filename)
+    : filename(filename) {}
 
-        int applicants;
-        int admits;
-        int enrolls;
-        int admitRate;
-        int yieldRate;
+void CSVReader::parse(Database& db, int year) {
 
-        double admitGPA25, admitGPA75;
-        double enrollGPA25, enrollGPA75;
-    };
+}
 
-private:
-    std::string filepath;
+std::vector<std::string> CSVReader::splitLine(const std::string& line) {
+    return {};
+}
 
-    std::string CSVReader::trim(const std::string &s){
-        int start = 0;
-        int end = s.length() - 1;
+std::string CSVReader::trim(const std::string& s) {
+    return "";
+}
 
-        while(start<=end && (s[start]==' ' || s[start]=='\t' || s[start]=='\n' || s[start]=='\r'))
-            start++;
-        
-        while(end>=start && (s[end]==' ' || s[end]=='\t' || s[end]=='\n' || s[end]=='\r'))
-            end--;
-        
-        std::string result;
+int CSVReader::parseInt(const std::string& s) {
+    return 0;
+}
 
-        for(int i = start; i<=end; i++)
-            result += s[i];
-        
-        return result;
-    }
-    std::string CSVReader::removeQuotes(const std::string &s){
-        int start = 0;
-        int end = s.length() - 1;
+int CSVReader::parsePercent(const std::string& s) {
+    return 0;
+}
 
-        if(end>=1 && ((s[start] == '"' && s[end] == '"')||(s[start] == '\'' && s[end] == '\''))){
-            return s.substr(1, end-1);
-        }
+// Field-specific parsing ------------------------------------
 
-        return s;
-    }
-    std::string CSVReader::removeCommas(const std::string &s){
-        int start = 0;
-        int end = s.length() - 1;
-        std::string result = "";
-        for(int i = 0; i<=s.length()-1; i++){
-            if(s[i] != ',')
-                result += s[i];
-        }
-        return result;
-    }
+std::string CSVReader::parseBroadDiscipline(const std::string& s) {
+    return "";
+}
 
-    int CSVReader::parseWord(const std::string &s){
-        int result;
+std::string CSVReader::parseCollegeSchool(const std::string& s) {
+    return "";
+}
 
-        for(int i=0; i<=s.length()-1; i++){
-            
-        }
-    }
-    static int parsePercent(const std::string &s);
-    static std::pair<double, double> parseRange(const std::string &s);
+std::string CSVReader::parseMajorName(const std::string& s) {
+    return "";
+}
 
-    static std::vector<std::string> splitLine(const std::string &line);
+int CSVReader::parseApplicants(const std::string& s) {
+    return 0;
+}
 
-public:
-    explicit CSVReader(const std::string &fp);
+int CSVReader::parseAdmits(const std::string& s) {
+    return 0;
+}
 
-    std::vector<std::vector<std::string>> readRawCSV() const;
+int CSVReader::parseEnrolls(const std::string& s) {
+    return 0;
+}
 
-    std::vector<Record> parseRecords() const;
+std::string CSVReader::parseAdmitGPA(const std::string& s) {
+    return "";
+}
 
-    const std::vector<std::string> &getMajors() const;
+std::string CSVReader::parseEnrollGPA(const std::string& s) {
+    return "";
+}
 
-    Record getRecordForMajor(const std::string &majorName) const;
+int CSVReader::parseAdmitRate(const std::string& s) {
+    return 0;
+}
 
-    std::pair<double, double> getAdmitGPA(const std::string &majorName) const;
-    std::pair<double, double> getEnrollGPA(const std::string &majorName) const;
-
-    int getAdmitRate(const std::string &majorName) const;
-    int getYieldRate(const std::string &majorName) const;
-
-    int getApplicants(const std::string &majorName) const;
-    int getAdmits(const std::string &majorName) const;
-    int getEnrolls(const std::string &majorName) const;
-};
-
-#endif
+int CSVReader::parseYieldRate(const std::string& s) {
+    return 0;
+}

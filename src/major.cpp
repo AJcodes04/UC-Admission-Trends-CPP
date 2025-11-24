@@ -1,21 +1,4 @@
-#ifndef MAJOR_H
-#define MAJOR_H
+#include "major.h"
 
-#include <string>
-#include <vector>
-#include <utility>
-#include <fstream>
-#include <sstream>
-
-class Major{
-public:
-    
-
-private:
-    
-
-public:
-    
-};
-
-#endif
+// No functions to implement — Major is a simple struct.
+// This file exists for consistency and future expansion.
