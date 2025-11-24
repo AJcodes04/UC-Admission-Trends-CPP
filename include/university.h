@@ -1,72 +1,78 @@
 /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-Represents a single university / model
+--------------------------------------------------------------------------------
+Defines the University model, which stores a linked list of yearly data.
 
-Class: University
-private: name, head of linkedlist
-The nodes will include a struct or small class for YearlyData for admitGPA, acceptanceRate, # of applicants etc.
+Components:
+1. YearNode (struct)
+   - Represents a single year (e.g., 2020).
+   - Contains:
+        • Year value
+        • Vector of Major* objects for that year's majors
+        • Pointer to next YearNode (linked list)
 
-public methods for
-printing out
-fetching new data
-calculating averages or trends maybe
+2. YearList (class)
+   - Manages a singly linked list of YearNode objects.
+   - Provides:
+        • addYear(int)
+        • findYear(int)
+        • addMajorToYear(int year, Major* m)
+   - Includes destructor logic to free YearNode list and Major* pointers.
 
-include destructors to free up memory
+3. School (struct)
+   - Represents a single university/school (e.g., UCSD).
+   - Contains:
+        • Name of the school
+        • Pointer to a YearList object
+   - Owns its YearList and frees it in the destructor.
 
-
-
-features:
-ask user which university data they would like to see
-prompt them about the data they would like to view
-then display the data they chose
-
-
--------------------------------------------------------------------------------------------------------------------------------------------------------
+Notes:
+- This file models how a university’s admission data evolves over years.
+- Memory ownership is handled explicitly: YearList frees nodes; School frees YearList.
+--------------------------------------------------------------------------------
 */
+
 
 #ifndef UNIVERSITY_H
 #define UNIVERSITY_H
 
 #include <string>
 #include <vector>
-using namespace std;
+#include "major.h"
 
-class University
-{
-private:
-    string university_name;
-    struct YearlyData
-    {
-        int year;
-        int admitRate;
-        int applicants;
-        int admits;
-        int enrolls;
+struct YearNode {
+    int year;                       // e.g., 2020
+    std::vector<Major*> majors;     // all majors for this year
+    YearNode* next;
 
-        double enrollGPA;
-        double admitGPA25, admitGPA75;
+    YearNode(int y) : year(y), next(nullptr) {}
+};
 
-        string major;
-        string college;
-        string discipline;
-    };
-
-    struct Node
-    {
-        YearlyData data;
-        Node *next;
-    };
-    Node *head;
-
+class YearList {
 public:
-    University(string name);
+    YearList();
+    ~YearList();
 
-    void printYearData(int year);
-    void printAllYears();
+    void addYear(int year);
+    YearNode* findYear(int year);
+    void addMajorToYear(int year, Major* major);
 
-    YearlyData getLatestYear() const;
-    YearlyData getYearData(int year) const;
-    vector<YearlyData> getAllYearData() const;
+private:
+    YearNode* head;
+    void freeList();
+};
+
+struct School {
+    std::string name;
+    YearList* years;
+
+    School(const std::string& s) {
+        name = s;
+        years = new YearList();
+    }
+
+    ~School() {
+        delete years;
+    }
 };
 
 #endif

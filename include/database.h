@@ -1,45 +1,44 @@
 /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-The purpose of this header file is to manage and keep track of multiple universities and allow you to query data
+--------------------------------------------------------------------------------
+Top-level container holding all universities/schools in the project.
 
 Class: Database
-stores all the universities in a vector
+- Stores a vector<School*>.
+- Provides methods to:
+    • addSchool(name)
+    • search for a School by name
+    • insert a Major into the correct school + year (creates year if missing)
 
-methods for:
-looking up a university by name
-comparing data from other universities
-print summaries
+Responsibilities:
+- Acts as the root of the entire data structure.
+- Controls creation and lookup of School objects.
+- Coordinates insertion of data parsed from CSVReader.
 
-other helper functions
-
--------------------------------------------------------------------------------------------------------------------------------------------------------
+Memory:
+- Owns all School* objects; destructor should free them.
+--------------------------------------------------------------------------------
 */
+
 
 #ifndef DATABASE_H
 #define DATABASE_H
 
-#include <string>
 #include <vector>
+#include <string>
 #include "university.h"
 
-class Database
-{
-private:
-    std::vector<University> universities;
-    bool containsUniversity(const std::string &name) const;
-    bool validInput(const std::string &userInput) const;
-    void sortUniversitiesByGPA();
-
+class Database {
 public:
-    void printAllNames() const;
-    void printAllUniversityStats() const;
-    void compareTwoUniversities(const std::string &universityOne, const std::string &universityTwo) const;
-    void filterByMajorGPA(const std::string &major, double GPA) const;
+    void addSchool(const std::string& name);
+    School* getSchool(const std::string& name);
 
-    // return type, the university object
-    const University *getUniversity(const std::string &universityName) const;
-    std::vector<std::string> getAllUniversityNames() const;
-    const std::vector<University> &getAllUniversities() const;
+    // Add a major into the proper school and year
+    void insertMajor(const std::string& schoolName, int year, Major* major);
+
+    const std::vector<School*>& getSchools() const { return schools; }
+
+private:
+    std::vector<School*> schools;
 };
 
 #endif

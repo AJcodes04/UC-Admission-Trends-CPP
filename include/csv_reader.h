@@ -1,78 +1,100 @@
 /*
--------------------------------------------------------------------------------------------------------------------------------------------------------
-The purpose of this header file is to read and parse data in the csv files
+--------------------------------------------------------------------------------
+CSVReader
+Reads and parses a CSV file containing university admissions statistics.
 
-Class: CSVReader
+This class is responsible only for:
+    • Opening a CSV file
+    • Reading each line into exactly 10 data fields
+    • Splitting based on commas (while preserving commas inside major names)
+    • Looping through each field (0–9) and calling a dedicated parser function
+      such as:
+          parseBroadDiscipline()
+          parseCollegeSchool()
+          parseMajorName()
+          parseApplicants()
+          parseAdmits()
+          parseEnrolls()
+          parseAdmitGPA()
+          parseEnrollGPA()
+          parseAdmitRate()
+          parseYieldRate()
 
-Will include a constructor that takes in a string: filepath
+Design:
+    - Because each CSV line always contains the same number of columns, parsing
+      is handled with a single for-loop:
+          
+          for (int i = 0; i < NUM_FIELDS; i++) {
+              switch(i) {
+                  case 0: major->broadDiscipline = parseBroadDiscipline(fields[i]); break;
+                  ...
+              }
+          }
 
-a method to return a vector of parsed rows
+    - Each field has its own parsing helper to keep responsibilities separate
+      and maintain clean, readable logic.
 
-additional helper methods
--------------------------------------------------------------------------------------------------------------------------------------------------------
+    - After constructing a fully populated Major object, the reader inserts it
+      into the appropriate:
+          Database → School → YearList → YearNode → majors vector
+
+Responsibilities:
+    - File reading
+    - Line splitting
+    - Field-by-field parsing
+    - Passing parsed data into the Database
+
+Non-Responsibilities:
+    - Storing data long-term
+    - Memory ownership of schools, years, or majors
+    - Displaying or analyzing data
+
+CSVReader acts purely as a parser and data loader.
+
+--------------------------------------------------------------------------------
 */
+
+
 
 #ifndef CSV_READER_H
 #define CSV_READER_H
 
 #include <string>
 #include <vector>
-#include <utility>
-#include <fstream>
-#include <sstream>
+#include "database.h"
 
-class CSVReader
-{
+class CSVReader {
 public:
-    struct Record
-    {
-        std::string discipline;
-        std::string school;
-        std::string major;
+    CSVReader(const std::string& filename);
 
-        int applicants;
-        int admits;
-        int enrolls;
-        int admitRate;
-        int yieldRate;
-
-        double admitGPA25, admitGPA75;
-        double enrollGPA25, enrollGPA75;
-    };
+    // Parse entire CSV into the database for a given year
+    void parse(Database& db, int year);
 
 private:
-    std::string filepath;
+    std::string filename;
 
-    static std::string trim(const std::string &s);
-    static std::string removeQuotes(const std::string &s);
-    static std::string removeCommas(const std::string &s);
+    // Splitting & cleaning
+    std::vector<std::string> splitLine(const std::string& line);
+    std::string trim(const std::string& s);
 
-    static int parseInt(const std::string &s);
-    static int parsePercent(const std::string &s);
-    static std::pair<double, double> parseRange(const std::string &s);
+    // Numeric parsing helpers
+    int parseInt(const std::string& s);
+    int parsePercent(const std::string& s);
 
-    static std::vector<std::string> splitLine(const std::string &line);
+    // Parse each field by index (0–10)
+    std::string parseBroadDiscipline(const std::string& s);
+    std::string parseCollegeSchool(const std::string& s);
+    std::string parseMajorName(const std::string& s);
 
-public:
-    explicit CSVReader(const std::string &fp);
+    int parseApplicants(const std::string& s);
+    int parseAdmits(const std::string& s);
+    int parseEnrolls(const std::string& s);
 
-    std::vector<std::vector<std::string>> readRawCSV() const;
+    std::string parseAdmitGPA(const std::string& s);
+    std::string parseEnrollGPA(const std::string& s);
 
-    std::vector<Record> parseRecords() const;
-
-    const std::vector<std::string> &getMajors() const;
-
-    Record getRecordForMajor(const std::string &majorName) const;
-
-    std::pair<double, double> getAdmitGPA(const std::string &majorName) const;
-    std::pair<double, double> getEnrollGPA(const std::string &majorName) const;
-
-    int getAdmitRate(const std::string &majorName) const;
-    int getYieldRate(const std::string &majorName) const;
-
-    int getApplicants(const std::string &majorName) const;
-    int getAdmits(const std::string &majorName) const;
-    int getEnrolls(const std::string &majorName) const;
+    int parseAdmitRate(const std::string& s);
+    int parseYieldRate(const std::string& s);
 };
 
 #endif
