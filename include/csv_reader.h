@@ -78,7 +78,7 @@ private:
     std::string trim(const std::string& s);
 
     // Numeric parsing helpers
-    int parseInt(const std::string& s);
+    std::string parseQuote(const std::string& s);
     int parsePercent(const std::string& s);
 
     // Parse each field by index (0–10)
@@ -86,15 +86,17 @@ private:
     std::string parseCollegeSchool(const std::string& s);
     std::string parseMajorName(const std::string& s);
 
-    int parseApplicants(const std::string& s);
-    int parseAdmits(const std::string& s);
-    int parseEnrolls(const std::string& s);
+    std::string parseApplicants(const std::string& s);
+    std::string parseAdmits(const std::string& s);
+    std::string parseEnrolls(const std::string& s);
 
     std::string parseAdmitGPA(const std::string& s);
     std::string parseEnrollGPA(const std::string& s);
 
-    int parseAdmitRate(const std::string& s);
-    int parseYieldRate(const std::string& s);
+    std::string parseAdmitRate(const std::string& s);
+    std::string parseYieldRate(const std::string& s);
+
+    int cursor;
 };
 
 #endif

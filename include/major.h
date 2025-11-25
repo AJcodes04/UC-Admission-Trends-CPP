@@ -31,15 +31,15 @@ struct Major {
     std::string college;
     std::string majorName;
 
-    int applicants;
-    int admits;
-    int enrolls;
+    std::string applicants;
+    std::string admits;
+    std::string enrolls;
 
     std::string admitGPARange;
     std::string enrollGPARange;
 
-    int admitRate;
-    int yieldRate;
+    std::string admitRate;
+    std::string yieldRate;
 };
 
 #endif
