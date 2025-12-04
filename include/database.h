@@ -32,7 +32,6 @@ public:
     void addSchool(const std::string& name);
     School* getSchool(const std::string& name);
 
-    // Add a major into the proper school and year
     void insertMajor(const std::string& schoolName, int year, Major* major);
 
     const std::vector<School*>& getSchools() const { return schools; }

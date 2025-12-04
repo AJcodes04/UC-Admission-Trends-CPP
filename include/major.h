@@ -27,6 +27,8 @@ Notes:
 #include <string>
 
 struct Major {
+    std::string universityName;
+
     std::string broadDiscipline;
     std::string college;
     std::string majorName;
