@@ -1,5 +1,5 @@
-#include "university.h"
-#include "major.h"
+#include "../include/university.h"
+#include "../include/major.h"
 
 #include <vector>
 #include <string>
@@ -29,24 +29,32 @@ void YearList::freeList() {
 }
 
 void YearList::addYear(int year) {
-    if(head == nullptr){
-        head == new YearNode(year);
+    // if empty list
+    if (head == nullptr) {
+        head = new YearNode(year);
         return;
     }
 
     YearNode* curr = head;
 
-    while(curr->next != nullptr){
-        if(curr->year == year)
+    // check if first node matches
+    if (curr->year == year)
+        return;
+
+    // walk list
+    while (curr->next != nullptr) {
+
+        // check duplicate
+        if (curr->next->year == year)
             return;
+
         curr = curr->next;
     }
 
-    if(curr->next->year == year)
-        return;
-
+    // append new node at end
     curr->next = new YearNode(year);
 }
+
 
 YearNode* YearList::findYear(int year) {
     YearNode* curr = head;
@@ -65,7 +73,7 @@ void YearList::addMajorToYear(int year, Major* major) {
 
     if (node == nullptr) {
         addYear(year);
-        node = findYear(year);  // now it must exist
+        node = findYear(year);
     }
 
     for(int i=0; i<node->majors.size(); i++){

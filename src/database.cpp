@@ -1,6 +1,6 @@
-#include "database.h"
-#include "university.h"
-#include "major.h"
+#include "../include/database.h"
+#include "../include/university.h"
+#include "../include/major.h"
 
 #include <string>
 #include <vector>
