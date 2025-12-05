@@ -1,12 +1,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <iomanip>
 
 #include "../include/csv_reader.h"
 #include "../include/database.h"
 #include "../include/university.h"
 #include "../include/major.h"
-
 
 int main()
 {
@@ -60,14 +60,25 @@ int main()
         int userYear;
         std::string userMajor;
 
-        std::cout << "Enter school name (example: UCSD): ";
+        std::cout <<
+        "\nEnter school name:\n"
+        "  - UCB\n"
+        "  - UCLA\n"
+        "  - UCSD\n"
+        "  - UCI\n"
+        "  - UCSB\n"
+        "  - UCD\n"
+        "  - UCSC\n"
+        "  - UCR\n"
+        "  - UCM\n\n"
+        "Your choice: ";
         std::getline(std::cin, userSchool);
 
-        std::cout << "Enter year: ";
+        std::cout << "\nEnter year: ";
         std::cin >> userYear;
         std::cin.ignore();
 
-        std::cout << "Enter major name exactly as in CSV: ";
+        std::cout << "\nEnter major name exactly as in CSV: ";
         std::getline(std::cin, userMajor);
 
         School* s = db.getSchool(userSchool);
@@ -87,21 +98,51 @@ int main()
             return 0;
         }
 
-        std::cout << "\n=== Admission Statistics ===\n";
-        std::cout << "School: " << userSchool << "\n";
-        std::cout << "Year:   " << userYear << "\n";
-        std::cout << "Major:  " << userMajor << "\n\n";
+    const int LABEL_W = 20;
+    const int VALUE_W = 30;
 
-        std::cout << "Applicants:    " << target->applicants << "\n";
-        std::cout << "Admits:        " << target->admits << "\n";
-        std::cout << "Enrolls:       " << target->enrolls << "\n";
-        std::cout << "Admit GPA:     " << target->admitGPARange << "\n";
-        std::cout << "Enroll GPA:    " << target->enrollGPARange << "\n";
-        std::cout << "Admit Rate:    " << target->admitRate << "\n";
-        std::cout << "Yield Rate:    " << target->yieldRate << "\n\n";
+    auto row = [&](const std::string& label, const std::string& value) {
+        std::cout << "║ " << std::left << std::setw(LABEL_W) << label
+                << "║ " << std::setw(VALUE_W) << value << "     ║\n";
+    };
 
-        return 0;
+    std::cout << "\n\n"
+    "╔══════════════════════════════════════════════════════════╗\n"
+    "║                  UC ADMISSIONS ANALYTICS PORTAL          ║\n"
+    "╠══════════════════════════════════════════════════════════╣\n";
+
+    row("School:", userSchool);
+    row("Year:", std::to_string(userYear));
+    row("Major:", userMajor);
+
+    std::cout <<
+    "╠══════════════════════════════════════════════════════════╣\n";
+
+    row("Applicants",      target->applicants);
+    row("Admits",          target->admits);
+    row("Enrolls",         target->enrolls);
+    row("Admit GPA Range", target->admitGPARange);
+    row("Enroll GPA Range",target->enrollGPARange);
+    row("Admit Rate",      target->admitRate);
+    row("Yield Rate",      target->yieldRate);
+
+    std::cout <<
+    "╚══════════════════════════════════════════════════════════╝\n\n";
+
+    std::cout << "Would you like to look up another? Yes or No.\n";
+
+    std::string again;
+
+    std::cin >> again;
+
+    if(again == "Yes")
+        goAgain = true;
+    else
+        goAgain = false;
+
+    std::cout << "\n\n";
 
     }
+    return 0;
 
 }

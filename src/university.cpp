@@ -29,7 +29,6 @@ void YearList::freeList() {
 }
 
 void YearList::addYear(int year) {
-    // if empty list
     if (head == nullptr) {
         head = new YearNode(year);
         return;
@@ -37,21 +36,17 @@ void YearList::addYear(int year) {
 
     YearNode* curr = head;
 
-    // check if first node matches
     if (curr->year == year)
         return;
 
-    // walk list
     while (curr->next != nullptr) {
 
-        // check duplicate
         if (curr->next->year == year)
             return;
 
         curr = curr->next;
     }
 
-    // append new node at end
     curr->next = new YearNode(year);
 }
 

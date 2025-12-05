@@ -90,10 +90,6 @@ int CSVReader::parsePercent(const std::string& s) {
     return 0;
 }
 
-// ---------------------------------------------------------------
-// Field-specific parsing
-// ---------------------------------------------------------------
-
 std::string CSVReader::parseBroadDiscipline(const std::string& s) {
     std::string field = "";
 
